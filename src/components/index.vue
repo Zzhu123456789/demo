@@ -14,25 +14,26 @@
         <div
           :class="{zuan:true,zuang:d==index}"
           v-for="(item,index) in amount"
-          :key="index" 
-          name="xiaoshi" @click='remo(index)'
+          :key="index"
+          name="xiaoshi"
+          @click="remo(index)"
           :style="{'left':posi[index].xChou+'rem','top':posi[index].yChou+'rem'}"
         >
-        <div  v-if="item!='false'">
-          <img src="../assets/images/zuan.png" alt class="zuan-image" />
-          <div class="zuan-text">{{item}}</div>
-        </div>
+          <div v-if="item!='false'">
+            <img src="../assets/images/zuan.png" alt class="zuan-image" />
+            <div class="zuan-text">{{item}}</div>
+          </div>
         </div>
       </div>
       <div class="ge">
         <div class="watch">
           <div class="chakan">查看区块</div>
-          <img src="../assets/images/img.png" alt="" class="photo">
+          <img src="../assets/images/img.png" alt class="photo" />
           <div class="txt">区块高度及资产</div>
         </div>
         <div class="watch">
-            <div class="chakan">使用帮助</div>
-          <img src="../assets/images/collection.png" alt="" class="photo">
+          <div class="chakan">使用帮助</div>
+          <img src="../assets/images/collection.png" alt class="photo" />
           <div class="txt">添加收藏领汤钻</div>
         </div>
       </div>
@@ -48,40 +49,40 @@ export default {
     return {
       posi: [],
       amount: [0.0004, 0.3232, 0.333, 0.5656, 0.3445],
-      d:100,
+      d: 100,
+      zuan:12.2345
     };
   },
-  methods:{
-    remo(index){
-      this.d=index;
-      var that=this
-      setTimeout(function(){
-       that.amount.splice(index,1,'false');
-        localStorage.setItem('amount',that.amount);//设置缓存
-        localStorage.setItem('posi',JSON.stringify(that.posi));
-
-      },1000)
-      
+  methods: {
+    remo(index) {
+      this.d = index;
+      var that = this;
+      setTimeout(function() {
+        that.zuan=(parseFloat(that.zuan)+parseFloat(that.amount[index])).toFixed(4);
+        localStorage.setItem("zuan",that.zuan);
+        that.amount.splice(index, 1, "false");
+        localStorage.setItem("amount", that.amount); //设置缓存
+        localStorage.setItem("posi", JSON.stringify(that.posi));
+        
+      }, 1000);
     }
   },
   created() {
     //判断是否有缓存
-     var amount=localStorage.getItem('amount');
+    var amount = localStorage.getItem("amount");
     // console.log(JSON.parse(localStorage.getItem('posi')));
-     if(amount){
-       this.amount=amount.split(',');
-       this.posi=JSON.parse(localStorage.getItem('posi'));
-     }
-     else{
+    if (amount) {
+      this.amount = amount.split(",");
+      this.posi = JSON.parse(localStorage.getItem("posi"));
+    } else {
       for (var i = 0; i < 10; i++) {
-      //生成随机地址
-      this.posi[i] = {
-        xChou: parseInt(Math.random() * 570) / 75,
-        yChou: parseInt(Math.random() * 800) / 75
-      };
+        //生成随机地址
+        this.posi[i] = {
+          xChou: parseInt(Math.random() * 570) / 75,
+          yChou: parseInt(Math.random() * 800) / 75
+        };
+      }
     }
-     }
-    
   },
   mounted() {
     var fz = 75;
@@ -172,14 +173,14 @@ export default {
 }
 .zuan {
   position: absolute;
-  
+
   width: 70px;
   height: 100px;
 }
-.zuang{
-  opacity:0;
-  width:0;
-  height:0;
+.zuang {
+  opacity: 0;
+  width: 0;
+  height: 0;
   transition: all 2s;
 }
 .zuan-image {
@@ -216,18 +217,18 @@ export default {
   text-align: center;
   color: #4165b9;
 }
-.photo{
-    width:100px;height:100px;
-    margin:15px 62px;
+.photo {
+  width: 100px;
+  height: 100px;
+  margin: 15px 62px;
 }
-.txt{
-    width: 225px;
+.txt {
+  width: 225px;
   height: 30px;
   font-size: 28px;
   line-height: 30px;
   text-align: center;
   color: #fff;
 }
-
 </style>
 
